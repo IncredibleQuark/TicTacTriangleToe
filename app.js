@@ -16,17 +16,33 @@ var express = require('express'),
     console.log('Server start');
 
 
+    var SOCKET_LIST = {};
+
     var io = require('socket.io') (serv, {});
 
     io.sockets.on('connection', function (socket) {
 
         socket.id = Math.random();
+        SOCKET_LIST[socket.id] = socket;
 
-        socket.on('disconnect', function() {
-            delete SOCKET_LIST[socket_id]
+        // socket.on('disconnect', function() {
+        //     delete SOCKET_LIST[socket_id];
+        // })
+
+        socket.on('newMark', function (data) {
+
+            for(var i in SOCKET_LIST) {
+                var socket = SOCKET_LIST[i];
+
+                socket.emit('move', {
+                    box: data.position
+                });
+            }
+
         })
-
     });
+
+
 
 
 

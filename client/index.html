@@ -3,26 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <title>Tic Tac Triangle Toe</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="client/css/style.css">
 </head>
 <body>
-helo
 
 
-<canvas id="ctx" width="500" height="500" style="border: solid 1px black"></canvas>
+<div class="container">
+    <div id="board">
+        <table>
+            <tr id="row1">
+                <td id="1.1" class="square"></td>
+                <td id="1.2" class="square v"></td>
+                <td id="1.3" class="square r"></td>
+                <td id="1.4" class="square"></td>
+            </tr>
+            <tr id="row2">
+                <td id="2.1" class="square h"></td>
+                <td id="2.2" class="square v h"></td>
+                <td id="2.3" class="square h r"></td>
+                <td id="2.4" class="square h"></td>
+            </tr>
+            <tr id="row3">
+                <td id="3.1" class="square"></td>
+                <td id="3.2" class="square v"></td>
+                <td id="3.3" class="square r"></td>
+                <td id="3.4" class="square"></td>
+            </tr>
+            <tr id="row4">
+                <td id="4.1" class="square t"></td>
+                <td id="4.2" class="square v t"></td>
+                <td id="4.3" class="square r t"></td>
+                <td id="4.4" class="square t"></td>
+            </tr>
+        </table>
+    </div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js">
 
 </script>
 <script>
-    var ctx = document.getElementById('ctx').getContext("2d");
-    ctx.font = '30px Arial';
 
-    var socket = io();
+        var socket = io();
 
-    socket.on('newPlayer', function(data) {
-        ctx.clearRect(0, 0, 500, 500);
+//        var box = document.getElementsByClassName('.square');
+//
+//        $('.square').click(function (item, idx) {
+//
+//            this.innerText = 'hej';
+//            console.log(item);
+//        });
 
-    });
+        var boxes = document.querySelectorAll(".square");
+        for (var i = 0; i < boxes.length; i++) {
+            boxes[i].addEventListener("click", function(e) {
+                e.preventDefault();
+                var box = this;
+
+                box.innerHTML = 'dupa';
+                socket.emit('newMark', {
+                    position: box.id
+                });
+
+            });
+        }
+
+        socket.on('move', function(data) {
+            console.log(data.box);
+//            $("#"+data.box).innerHTML = "dupa";
+var el = document.getElementById(data.box);
+el.innerHTML = 'dupa';
+        });
+
+
 
 </script>
 
