@@ -8,74 +8,106 @@
 </head>
 <body>
 
-
-<div class="container">
+<div class="field">
     <div id="board">
-        <table>
+        <table cellspacing=0>
+            <tbody>
             <tr id="row1">
-                <td id="1.1" class="square"></td>
-                <td id="1.2" class="square v"></td>
-                <td id="1.3" class="square r"></td>
+                <td id="1.1" class="square active"></td>
+                <td id="1.2" class="square"></td>
+                <td id="1.3" class="square"></td>
                 <td id="1.4" class="square"></td>
+                <td id="1.5" class="square"></td>
             </tr>
             <tr id="row2">
-                <td id="2.1" class="square h"></td>
-                <td id="2.2" class="square v h"></td>
-                <td id="2.3" class="square h r"></td>
-                <td id="2.4" class="square h"></td>
+                <td id="2.1" class="square"></td>
+                <td id="2.2" class="square"></td>
+                <td id="2.3" class="square"></td>
+                <td id="2.4" class="square"></td>
+                <td id="2.5" class="square"></td>
             </tr>
             <tr id="row3">
                 <td id="3.1" class="square"></td>
-                <td id="3.2" class="square v"></td>
-                <td id="3.3" class="square r"></td>
+                <td id="3.2" class="square"></td>
+                <td id="3.3" class="square"></td>
                 <td id="3.4" class="square"></td>
+                <td id="3.5" class="square"></td>
             </tr>
             <tr id="row4">
-                <td id="4.1" class="square t"></td>
-                <td id="4.2" class="square v t"></td>
-                <td id="4.3" class="square r t"></td>
-                <td id="4.4" class="square t"></td>
+                <td id="4.1" class="square"></td>
+                <td id="4.2" class="square"></td>
+                <td id="4.3" class="square"></td>
+                <td id="4.4" class="square"></td>
+                <td id="4.5" class="square"></td>
             </tr>
+            <tr id="row5">
+                <td id="5.1" class="square"></td>
+                <td id="5.2" class="square"></td>
+                <td id="5.3" class="square"></td>
+                <td id="5.4" class="square"></td>
+                <td id="5.5" class="square"></td>
+            </tr>
+            </tbody>
         </table>
     </div>
 </div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js">
 
 </script>
 <script>
 
-        var socket = io();
+    var socket = io();
 
-//        var box = document.getElementsByClassName('.square');
-//
-//        $('.square').click(function (item, idx) {
-//
-//            this.innerText = 'hej';
-//            console.log(item);
-//        });
+    //        var box = document.getElementsByClassName('.square');
+    //
+    //        $('.square').click(function (item, idx) {
+    //
+    //            this.innerText = 'hej';
+    //            console.log(item);
+    //        });
 
-        var boxes = document.querySelectorAll(".square");
-        for (var i = 0; i < boxes.length; i++) {
-            boxes[i].addEventListener("click", function(e) {
-                e.preventDefault();
-                var box = this;
+    var boxes = document.querySelectorAll(".square");
+    for (var i = 0; i < boxes.length; i++) {
+        boxes[i].addEventListener("click", function (e) {
+            e.preventDefault();
+            var box = this;
 
-                box.innerHTML = 'dupa';
-                socket.emit('newMark', {
-                    position: box.id
-                });
-
+            socket.emit('newMark', {
+                box: box.id
             });
+
+        });
+    }
+
+    socket.on('move', function (data) {
+
+        console.log(data);
+
+        for(var i = 0 ; i < data.length; i++) {
+            var el = document.getElementById(data[i].move);
+
+            el.classList.add('active');
+
+
+            el.innerHTML = data[i].number;
         }
 
-        socket.on('move', function(data) {
-            console.log(data.box);
-//            $("#"+data.box).innerHTML = "dupa";
-var el = document.getElementById(data.box);
-el.innerHTML = 'dupa';
-        });
 
+    });
+
+
+    $(".field").mousemove(function (e) {
+        var pos = $(".field").offset();
+        var elPos = {X: pos.left, Y: pos.top};
+        var mPos = {X: (e.clientX - elPos.X - 300) / 20, Y: (e.clientY - elPos.Y - 300) / 20};
+        if (Math.abs(mPos.X) < 20 && Math.abs(mPos.Y) < 20) {
+            $(".field").css({boxShadow: -mPos.X + "px " + (-mPos.Y) + "px 0px 20px #000"});
+            $(".square").css({boxShadow: (-mPos.X) / 10 + "px " + (-mPos.Y) / 10 + "px 0px 2px #000"});
+            $(".circle").css({boxShadow: (mPos.X) / 5 + "px " + (mPos.Y) / 5 + "px 0px 5px #000"});
+            $(".x").css({left: (mPos.X)/10 +"px ", top: (mPos.Y)/10 +"px"});
+            $(".x>.x").css({left: (-mPos.X)/10 +"px ", top: (-mPos.Y)/10 +"px"});
+        }
+    });
 
 
 </script>

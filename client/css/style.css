@@ -3,32 +3,105 @@ html, body {
     margin: 0;
     padding: 0;
 }
-
-
 .square{
-    width:100px;
-    height:100px;
+    width: 120px;
+    height: 120px;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 0px 2px #000;
+}
+.square:hover:not(.active){
+    background-color: #DDD;
+    cursor: pointer;
+}
+table tr>.square{
+    border-bottom: 0px;
+    border-right: 0px;
+}
+table tr:nth-of-type(1)>.square{
+    border-top: 0px;
+}
+table tr>.square:nth-of-type(1){
+    border-left: 0px;
+}
+table tr:nth-of-type(1)>.square:nth-of-type(1){
+    border-radius: 50px 0px 0px 0px;
+}
+table tr:nth-of-type(1)>.square:last-of-type{
+    border-radius: 0px 50px 0px 0px;
+}
+table tr:last-of-type>.square:last-of-type{
+    border-radius: 0px 0px 50px 0px;
+}
+table tr:last-of-type>.square:nth-of-type(1){
+    border-radius: 0px 0px 0px 50px;
 }
 
-.v{
-    border-left:1px solid #000;
-    border-right:1px solid #000;
+body{
+    text-align:center;
+}
+.field{
+    margin-top: 100px;
+    background-color: #FFF;
+    border-radius: 50px;
+    width: 600px;
+    height: 600px;
+    display: inline-block;
+    box-shadow: 0px 0px 0px 20px #000;
+}
+.circle{
+    width: 80px;
+    height: 80px;
+    margin: 0px 0px 0px 15px;
+    border: 1px solid #000;
+    border-radius: 100px;
+    display: inline-block;
+    box-shadow: 0px 0px 0px 5px #000;
 }
 
-.h{
-    border-top:1px solid #000;
-    border-bottom:1px solid #000;
+.x{
+    width: 80px;
+    height: 80px;
+    position: relative;
+    border-radius: 6px;
+    display: inline-block;
+    margin-left: 15px;
 }
-.r {
-    border-right:1px solid #000;
+.x:before,.x:after{
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 13px;
+    background-color: #000;
+    border-radius: 2px;
+    top: 30px;
 }
-.t {
-    border-top:1px solid #000;
+.x:before{
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    transform: rotate(45deg);
+    left: -10px;
 }
-
-.container {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.x:after{
+    -webkit-transform:rotate(-45deg);
+    -moz-transform:rotate(-45deg);
+    transform:rotate(-45deg);
+    right:-10px;
+}
+.x>.x{
+    position: absolute;
+    margin-left: 0px;
+    z-index: 1;
+}
+.x>.x:before,.x>.x:after{
+    width: 70px;
+    height: 7px;
+    background-color: #FFF;
+    top: 33px;
+}
+.x>.x:before{
+    left: 5px;
+}
+.x>.x:after{
+    right:5px;
 }
