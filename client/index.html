@@ -83,14 +83,25 @@
 
         console.log(data);
 
-        for(var i = 0 ; i < data.length; i++) {
-            var el = document.getElementById(data[i].move);
+        jQuery.each(data, function(i, val) {
+            console.log(val.box);
+            var box = document.getElementById(val.box);
 
-            el.classList.add('active');
-
-
-            el.innerHTML = data[i].number;
-        }
+            box.classList.add('active');
+//
+//
+            box.innerHTML = val.box;
+        });
+//
+//        for(var key in data) {
+//            console.log(key);
+//            var el = document.getElementById(key.box);
+//
+//            el.classList.add('active');
+//
+//
+//            el.innerHTML = data[i].box;
+//        }
 
 
     });

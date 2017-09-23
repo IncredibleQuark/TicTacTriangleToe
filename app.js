@@ -119,20 +119,22 @@ console.log("Server started.");
 
 var SOCKET_LIST = {};
 var PLAYER_LIST = {};
+var MOVES_LIST = {};
+
+var Move = function(id, box, playerId) {
+    var self = {
+        id: id,
+        box: box,
+        playerId: playerId
+    };
+    return self;
+};
 
 var Player = function(id){
     var self = {
-        x:250,
-        y:250,
-        id:id,
-        move: '',
-        mark: '',
-        number:"" + Math.floor(10 * Math.random()),
-        pressingRight:false,
-        pressingLeft:false,
-        pressingUp:false,
-        pressingDown:false,
-        maxSpd:10
+
+        id:id
+
     };
 
     return self;
@@ -147,26 +149,37 @@ io.sockets.on('connection', function(socket){
     var player = Player(socket.id);
     PLAYER_LIST[socket.id] = player;
 
+
+
+
     socket.on('disconnect',function(){
         delete SOCKET_LIST[socket.id];
         delete PLAYER_LIST[socket.id];
+        delete MOVES_LIST[player.id];
     });
 
+
     socket.on('newMark', function(data){
-        var pack = [];
-        player.move = data.box;
-        for(var i in PLAYER_LIST){
-            player = PLAYER_LIST[i];
-            pack.push({
-                x:player.x,
-                y:player.y,
-                move: player.move,
-                number:player.number
-            });
-        }
+        // var pack = [];
+        // player.move = data.box;
+        // for(var i in PLAYER_LIST){
+        //     player = PLAYER_LIST[i];
+        //     pack.push({
+        //         x:player.x,
+        //         y:player.y,
+        //         move: player.move,
+        //         number:player.number
+        //     });
+        // }
+
+
+        var moveId = Math.round(100 * Math.random());
+        var move = Move(moveId, data.box, player.id);
+        MOVES_LIST[move.id]= move;
+
         for(var j in SOCKET_LIST){
             var socket = SOCKET_LIST[j];
-            socket.emit('move',pack);
+            socket.emit('move', MOVES_LIST);
         }
 
 
