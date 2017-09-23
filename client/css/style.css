@@ -67,6 +67,18 @@ body{
     display: inline-block;
     margin-left: 15px;
 }
+
+.triangle {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0px 40px 80px 40px;
+    border-color: transparent transparent #333 transparent;
+    margin: 0px 0px 0px 15px;
+    display: inline-block;
+}
+
+
 .x:before,.x:after{
     content: '';
     position: absolute;

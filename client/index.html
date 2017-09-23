@@ -79,38 +79,43 @@
         });
     }
 
-    socket.on('move', function (data) {
+    socket.on('move', function (moves) {
 
-        console.log(data);
+        console.log(moves);
 
-        jQuery.each(data, function(i, val) {
-            console.log(val.box);
+        jQuery.each(moves, function(i, val) {
+
             var box = document.getElementById(val.box);
-
             box.classList.add('active');
-//
-//
-            box.innerHTML = val.box;
-        });
-//
-//        for(var key in data) {
-//            console.log(key);
-//            var el = document.getElementById(key.box);
-//
-//            el.classList.add('active');
-//
-//
-//            el.innerHTML = data[i].box;
-//        }
+            box.innerHTML = val.mark;
 
+        });
+
+
+        checkForWin(moves);
 
     });
+
+
+    var checkForWin = function (moves) {
+
+        console.log(moves.mark);
+        var wins = [[1.1, 1.2, 1.3], [1.2, 1.3, 1.4]];
+
+        moves.filter(function (i, j) {
+
+        });
+
+    };
+
+
 
 
     $(".field").mousemove(function (e) {
         var pos = $(".field").offset();
         var elPos = {X: pos.left, Y: pos.top};
         var mPos = {X: (e.clientX - elPos.X - 300) / 20, Y: (e.clientY - elPos.Y - 300) / 20};
+
         if (Math.abs(mPos.X) < 20 && Math.abs(mPos.Y) < 20) {
             $(".field").css({boxShadow: -mPos.X + "px " + (-mPos.Y) + "px 0px 20px #000"});
             $(".square").css({boxShadow: (-mPos.X) / 10 + "px " + (-mPos.Y) / 10 + "px 0px 2px #000"});
